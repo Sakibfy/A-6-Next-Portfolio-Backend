@@ -33,7 +33,7 @@ const getAllPosts = async ({
     AND: [
       search && {
         OR: [
-          { tilte: { contains: search, mode: 'insensitive' } },
+          { title: { contains: search, mode: 'insensitive' } },
           { content: { contains: search, mode: 'insensitive' } }
         ]
       },
@@ -41,17 +41,16 @@ const getAllPosts = async ({
     ]
   }
   const result = await prisma.post.findMany({
-        skip,
-        take: limit,
-        where,
-        include: {
-            author: true
-        },
-        orderBy: {
-            createdAt: "desc"
-        }
-    }
-  )
+    skip,
+    take: limit,
+    where,
+    // include: {
+    //   author: true
+    // },
+    // orderBy: {
+    //   createdAt: "desc"
+    // }
+  });
 
   const total = await prisma.post.count({ where })
 
@@ -66,6 +65,7 @@ const getAllPosts = async ({
     };
 };
 
+// get single post by id
 const getPostById = async (id: number) => {
     return await prisma.$transaction(async (tx) => {
         await tx.post.update({
@@ -83,10 +83,21 @@ const getPostById = async (id: number) => {
         });
     })
 };
+// Update post
+const updatePost = async (id: number, data: Partial<any>) => {
+  return prisma.post.update({ where: { id }, data });
+}
 
+// delete Post
+const deletePost = async (id: number) => {
+  return prisma.post.delete({ where: { id } });
+}
 
 export const PostServies = {
   createPost,
-  getAllPosts
+  getAllPosts,
+  getPostById,
+  deletePost,
+  updatePost
   
 }

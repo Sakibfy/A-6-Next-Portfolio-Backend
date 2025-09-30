@@ -24,7 +24,7 @@ const getAllPosts = async (req: Request, res: Response) => {
     
     const result = await PostServies.getAllPosts({page, limit, search})
     
-    res.status(201).json(result);
+    res.json(result);
 
 } catch (error) {
     res.status(500).json({ error: "Failed to fetch posts", details: err });
@@ -33,15 +33,29 @@ const getAllPosts = async (req: Request, res: Response) => {
 }
 
 // Get All Post By Id
-
 const getPostById = async (req: Request, res: Response) => {
-    const post = await PostService.getPostById(Number(req.params.id));
+    const post = await PostServies.getPostById(Number(req.params.id));
     if (!post) return res.status(404).json({ error: "Post not found" });
     res.json(post);
 };
 
+// update post
+const updatePost = async (req: Request, res: Response) => {
+  const result = await PostServies.updatePost(Number(req.params.id), req.body)
+  res.json(result)
+}
+
+// delete Post
+const deletePost = async (req: Request, res: Response) => {
+   await PostServies.deletePost(Number(req.params.id))
+  res.json({message: "Post Deleted"})
+}
+
+
 export const  PostController = {
   createPost,
   getAllPosts,
-  getPostById
+  getPostById,
+  updatePost,
+  deletePost 
 }
