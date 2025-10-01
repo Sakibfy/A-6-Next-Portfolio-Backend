@@ -3,6 +3,7 @@ import cors from "cors";
 import express from "express";
 import { userRoute } from "./modules/user/user.routes";
 import { postRouter } from "./modules/post/post.routes";
+import { authRouter } from "./modules/auth/auth.routes";
 
 
 const app = express();
@@ -20,6 +21,7 @@ app.use(
 );
 
 
+app.use("/api/v1/auth",authRouter)
 app.use("/api/v1/user",userRoute)
 app.use("/api/v1/post",postRouter)
 

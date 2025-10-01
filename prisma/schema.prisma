@@ -60,4 +60,5 @@ enum Role {
   OWNER
   ADMIN
   USER
+  SUPER_ADMIN
 }

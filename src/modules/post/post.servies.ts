@@ -18,80 +18,30 @@ const createPost = async (payload: Prisma.PostCreateInput): Promise<Post> => {
   return result;
 }
 
-const getAllPosts = async ({
-  page = 1,
-  limit = 10,
-  search
-}: {
-    page?: number,
-    limit?: number,
-    search?: string
-  }) => {
-  const skip = (page - 1) * limit
-
-  const where: any = {
-    AND: [
-      search && {
-        OR: [
-          { title: { contains: search, mode: 'insensitive' } },
-          { content: { contains: search, mode: 'insensitive' } }
-        ]
-      },
-      
-    ]
-  }
-  const result = await prisma.post.findMany({
-    skip,
-    take: limit,
-    where,
-    // include: {
-    //   author: true
-    // },
-    // orderBy: {
-    //   createdAt: "desc"
-    // }
-  });
-
-  const total = await prisma.post.count({ where })
-
-      return {
-        data: result,
-        pagination: {
-            page,
-            limit,
-            total,
-            totalPages: Math.ceil(total / limit)
-        }
-    };
+const getAllPosts = async () => {
+    const result = await prisma.post.findMany();
+    return result;
 };
 
 // get single post by id
 const getPostById = async (id: number) => {
-    return await prisma.$transaction(async (tx) => {
-        await tx.post.update({
-            where: { id },
-            data: {
-                views: {
-                    increment: 1
-                }
-            }
-        });
+    const result = await prisma.post.findUnique({
+        where: { id },
+        include: { author: true },
+    });
 
-        return await tx.post.findUnique({
-            where: { id },
-            include: { author: true },
-        });
-    })
+    return result;
 };
+
 // Update post
 const updatePost = async (id: number, data: Partial<any>) => {
-  return prisma.post.update({ where: { id }, data });
-}
+    return prisma.post.update({ where: { id }, data });
+};
 
 // delete Post
 const deletePost = async (id: number) => {
-  return prisma.post.delete({ where: { id } });
-}
+    return prisma.post.delete({ where: { id } });
+};
 
 export const PostServies = {
   createPost,
