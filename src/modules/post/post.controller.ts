@@ -5,7 +5,7 @@ const createPost = async (req: Request, res: Response) => {
 
 try {
   const result = await PostServies.createPost(req.body)
-  console.log(result);
+
   res.status(201).json(result);
 
 } catch (error) {
