@@ -1,4 +1,4 @@
-import { error } from "console";
+
 import { prisma } from "../../config/db"
 import { Prisma } from "@prisma/client";
 

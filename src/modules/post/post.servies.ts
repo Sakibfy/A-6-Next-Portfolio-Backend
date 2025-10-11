@@ -19,7 +19,8 @@ const createPost = async (payload: Prisma.PostCreateInput): Promise<Post> => {
 }
 
 const getAllPosts = async () => {
-    const result = await prisma.post.findMany();
+  const result = await prisma.post.findMany();
+  console.log(result);
     return result;
 };
 

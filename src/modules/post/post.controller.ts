@@ -24,6 +24,24 @@ const getAllPosts = async (req: Request, res: Response) => {
     }
 };
 
+// const getAllPosts = async (req: Request, res: Response) => {
+//   try {
+//     const result = await PostServies.getAllPosts();
+//     return res.status(200).json({
+//       success: true,
+//       message: "Posts fetched successfully",
+//       data: result,
+//     });
+//   } catch (error: any) {
+//     console.error("Error fetching posts:", error);
+//     return res.status(500).json({
+//       success: false,
+//       message: "Failed to fetch posts",
+//       error: error?.message || "Internal Server Error",
+//     });
+//   }
+// };
+
 // Get All Post By Id
 const getPostById = async (req: Request, res: Response) => {
     const post = await PostServies.getPostById(Number(req.params.id));

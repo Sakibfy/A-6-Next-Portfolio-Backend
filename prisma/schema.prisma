@@ -46,14 +46,7 @@ model Project {
   updatedAt  DateTime @updatedAt
 }
 
-model SiteInfo {
-  id       Int    @id @default(1)
-  name     String
-  bio      String
-  email    String
-  phone    String?
-  socials  Json?
-}
+
 
 
 enum Role {
